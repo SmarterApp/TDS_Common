@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 public class ResultSetMapperUtility {
@@ -21,4 +22,17 @@ public class ResultSetMapperUtility {
             ? null
             : ts.toLocalDateTime().toInstant(ZoneOffset.UTC);
     }
+
+    /**
+     * Map a {@link java.time.Instant} to a {@link java.sql.Timestamp} in UTC.
+     *
+     * @param time The {@link java.time.Instant} to convert
+     * @return A {@link java.sql.Timestamp} representation of the {@link java.time.Instant}
+     */
+    public static Timestamp mapInstantToTimestamp(Instant time) {
+        return time == null
+            ? null
+            : Timestamp.valueOf(LocalDateTime.ofInstant(time, ZoneOffset.UTC));
+    }
+
 }
