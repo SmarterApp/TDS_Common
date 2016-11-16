@@ -13,6 +13,13 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import tds.common.web.exceptions.NotFoundException;
 import tds.common.web.resources.ExceptionMessageResource;
 
+/**
+ * Application-wide exception handling for Spring controllers.
+ * <p>
+ *     When adding a new {code @ExceptionHandler}, add it before the final {code @ExceptionHandler} that deals with the
+ *     {@code Exception.class}, which is the "catch-all" handler that returns a 500 - Internal Server Error.
+ * </p>
+ */
 @ControllerAdvice
 public class ExceptionAdvice {
     private static final Logger LOG = LoggerFactory.getLogger(ExceptionAdvice.class);
@@ -24,17 +31,6 @@ public class ExceptionAdvice {
         return new ResponseEntity<>(
             new ExceptionMessageResource(HttpStatus.NOT_FOUND.toString(), ex.getLocalizedMessage()), HttpStatus.NOT_FOUND);
     }
-
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    ResponseEntity<ExceptionMessageResource> handleException(final Exception ex) {
-        LOG.error("Unexpected error", ex);
-
-        return new ResponseEntity<>(
-            new ExceptionMessageResource(HttpStatus.INTERNAL_SERVER_ERROR.toString(), ex.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
@@ -58,5 +54,15 @@ public class ExceptionAdvice {
     ResponseEntity<ExceptionMessageResource> handleInvalidParametersException(final IllegalArgumentException ex) {
         return new ResponseEntity<>(
             new ExceptionMessageResource(HttpStatus.BAD_REQUEST.toString(), ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    ResponseEntity<ExceptionMessageResource> handleException(final Exception ex) {
+        LOG.error("Unexpected error", ex);
+
+        return new ResponseEntity<>(
+            new ExceptionMessageResource(HttpStatus.INTERNAL_SERVER_ERROR.toString(), ex.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
