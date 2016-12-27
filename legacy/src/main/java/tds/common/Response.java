@@ -1,6 +1,9 @@
 package tds.common;
 
-import java.util.Optional;
+
+import com.google.common.base.Optional;
+
+import static tds.common.util.Preconditions.checkNotNull;
 
 /**
  * Contains data and errors if any when responding with the data.
@@ -16,32 +19,32 @@ public class Response<T> {
      * @param errors errors present when completing the request
      */
     public Response(T data, ValidationError... errors) {
-        this.errors = errors;
-        this.data = data;
+        this.errors = checkNotNull(errors);
+        this.data = checkNotNull(data);
     }
 
     /**
      * @param errors errors present when completing the request
      */
     public Response(ValidationError... errors) {
-        this.errors = errors;
+        this.errors = checkNotNull(errors);
     }
 
     /**
      * @param data data requested
      */
     public Response(T data) {
-        this.data = data;
+        this.data = checkNotNull(data);
     }
 
     /**
      * @return errors when completing the request.
      */
-    public Optional<ValidationError[]> getErrors() {
+    public ValidationError[] getErrors() {
         if (errors == null) {
-            return Optional.empty();
+            return new ValidationError[]{};
         }
-        return Optional.of(errors);
+        return errors;
     }
 
     /**
@@ -49,7 +52,7 @@ public class Response<T> {
      */
     public Optional<T> getData() {
         if (data == null) {
-            return Optional.empty();
+            return Optional.absent();
         }
 
         return Optional.of(data);

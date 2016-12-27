@@ -1,5 +1,7 @@
 package tds.common;
 
+import static tds.common.util.Preconditions.checkNotNull;
+
 /**
  * Generic Error object
  */
@@ -12,7 +14,7 @@ public class ValidationError {
      * @param message error message to describe why error occurred
      */
     public ValidationError(String code, String message) {
-        this.code = code;
+        this.code = checkNotNull(code);
         this.message = message;
     }
 

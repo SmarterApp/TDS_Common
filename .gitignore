@@ -125,4 +125,4 @@ Temporary Items
 .apdisk
 
 #Maven
-/target/**
+**/target/**
