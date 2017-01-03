@@ -48,6 +48,13 @@ public class Response<T> {
     }
 
     /**
+     * @return True if the {@link tds.common.ValidationError}s array contains any elements; otherwise false
+     */
+    public boolean hasErrors() {
+        return errors.length > 0;
+    }
+
+    /**
      * @return optional potentially containing the data
      */
     public Optional<T> getData() {
