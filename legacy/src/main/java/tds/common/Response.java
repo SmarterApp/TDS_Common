@@ -51,7 +51,7 @@ public class Response<T> {
      * @return True if the {@link tds.common.ValidationError}s array contains any elements; otherwise false
      */
     public boolean hasErrors() {
-        return errors.length > 0;
+        return errors != null && errors.length > 0;
     }
 
     /**
