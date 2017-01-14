@@ -52,6 +52,9 @@ public class HealthIndicatorClient {
             final Health.Builder builder = new Health.Builder(new Status(health.status()));
             health.details().forEach(builder::withDetail);
             return builder.build();
+        } catch (IllegalArgumentException ex) {
+            // parse url excecption
+            return Health.down(ex).withDetail("url", url).build();
         } catch (Exception ex) {
             return Health.down(ex).build();
         }
