@@ -40,11 +40,15 @@ public class HealthIndicatorClient {
         try {
             // parse url for existing url components
             final UriComponents components = UriComponentsBuilder.fromUriString(url).build();
-            final UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(url)
-                    .pathSegment("health");
-            if (components.getHost() == null) {
-                uriBuilder.scheme("http");
+            final UriComponentsBuilder uriBuilder;
+            if (components.getHost() != null) {
+                uriBuilder = UriComponentsBuilder.fromUriString(url);
+            } else {
+                // add default http protocol if missing
+                uriBuilder = UriComponentsBuilder.fromHttpUrl(String.format("http://%s", url));
             }
+            uriBuilder.pathSegment("health");
+
             final String restUrl = uriBuilder.build().toString();
 
             final tds.common.health.Health health = restTemplate.getForObject(restUrl, tds.common.health.Health.class);
@@ -53,7 +57,7 @@ public class HealthIndicatorClient {
             health.details().forEach(builder::withDetail);
             return builder.build();
         } catch (IllegalArgumentException ex) {
-            // parse url excecption
+            // parse url exception
             return Health.down(ex).withDetail("url", url).build();
         } catch (Exception ex) {
             return Health.down(ex).build();
