@@ -16,7 +16,6 @@ public abstract class Health {
         return new AutoValue_Health(status, new HashMap<>());
     }
 
-    @JsonProperty("status")
     public abstract String getStatus();
 
     @JsonAnyGetter
