@@ -17,13 +17,13 @@ public abstract class Health {
     }
 
     @JsonProperty("status")
-    public abstract String status();
+    public abstract String getStatus();
 
     @JsonAnyGetter
-    public abstract Map<String, Object> details();
+    public abstract Map<String, Object> getDetails();
 
     @JsonAnySetter
     public void add(final String key, final Object value) {
-        details().put(key, value);
+        getDetails().put(key, value);
     }
 }

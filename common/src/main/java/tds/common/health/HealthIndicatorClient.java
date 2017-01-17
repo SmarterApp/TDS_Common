@@ -55,8 +55,8 @@ public class HealthIndicatorClient {
 
             final tds.common.health.Health health = restTemplate.getForObject(restUrl, tds.common.health.Health.class);
 
-            final Health.Builder builder = new Health.Builder(new Status(health.status()));
-            health.details().forEach(builder::withDetail);
+            final Health.Builder builder = new Health.Builder(new Status(health.getStatus()));
+            health.getDetails().forEach(builder::withDetail);
             return builder.build();
         } catch (IllegalArgumentException ex) {
             // parse url exception
