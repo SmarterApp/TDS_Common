@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Configuration
 @EnableCaching
-@PropertySource("classpath:cache.properties")
+@PropertySource(value="classpath:cache.properties", ignoreResourceNotFound=true)
 public class CacheConfiguration {
 
     @Value("${tds.cache.expire.time.short:20}")
