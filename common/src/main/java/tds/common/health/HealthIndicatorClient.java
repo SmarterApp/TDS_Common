@@ -19,13 +19,15 @@ public class HealthIndicatorClient {
 
     @Autowired
     public HealthIndicatorClient(final RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
         restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
             @Override
             protected boolean hasError(HttpStatus statusCode) {
-                return statusCode.series() == HttpStatus.Series.CLIENT_ERROR;
+                // spring boot health endpoint returns a 503 http status code when health checks fail
+                // do not throw an exception in this case
+                return super.hasError(statusCode) && !statusCode.equals(HttpStatus.SERVICE_UNAVAILABLE);
             }
         });
+        this.restTemplate = restTemplate;
     }
 
     /**
