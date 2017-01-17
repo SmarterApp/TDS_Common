@@ -92,6 +92,11 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>1.4.0.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>4.3.2.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>
