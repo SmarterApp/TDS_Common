@@ -1,4 +1,4 @@
-package tds.common.configuration;
+package tds.common.cache;
 
 /**
  * A class containing cache ids for various cache types
