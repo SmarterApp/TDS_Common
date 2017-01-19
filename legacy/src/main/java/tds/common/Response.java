@@ -11,23 +11,23 @@ import static tds.common.util.Preconditions.checkNotNull;
  * @param <T> type for the data contained in the response
  */
 public class Response<T> {
-    private ValidationError[] errors;
+    private ValidationError error;
     private T data;
 
     /**
-     * @param data   data requested
-     * @param errors errors present when completing the request
+     * @param data  data requested
+     * @param error errors present when completing the request
      */
-    public Response(T data, ValidationError... errors) {
-        this.errors = checkNotNull(errors);
+    public Response(T data, ValidationError error) {
+        this.error = checkNotNull(error);
         this.data = checkNotNull(data);
     }
 
     /**
-     * @param errors errors present when completing the request
+     * @param error errors present when completing the request
      */
-    public Response(ValidationError... errors) {
-        this.errors = checkNotNull(errors);
+    public Response(ValidationError error) {
+        this.error = checkNotNull(error);
     }
 
     /**
@@ -38,30 +38,23 @@ public class Response<T> {
     }
 
     /**
-     * @return errors when completing the request.
+     * @return error when completing the request.
      */
-    public ValidationError[] getErrors() {
-        if (errors == null) {
-            return new ValidationError[]{};
-        }
-        return errors;
+    public Optional<ValidationError> getError() {
+        return Optional.fromNullable(error);
     }
 
     /**
-     * @return True if the {@link tds.common.ValidationError}s array contains any elements; otherwise false
+     * @return True if there is a {@link tds.common.ValidationError}s
      */
-    public boolean hasErrors() {
-        return errors != null && errors.length > 0;
+    public boolean hasError() {
+        return error != null;
     }
 
     /**
      * @return optional potentially containing the data
      */
     public Optional<T> getData() {
-        if (data == null) {
-            return Optional.absent();
-        }
-
-        return Optional.of(data);
+        return Optional.fromNullable(data);
     }
 }
