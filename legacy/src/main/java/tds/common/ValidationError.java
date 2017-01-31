@@ -8,9 +8,9 @@ import static tds.common.util.Preconditions.checkNotNull;
  * Generic Error object
  */
 public class ValidationError {
-    private final String code;
-    private final String message;
-    private final String translatedMessage;
+    private String code;
+    private String message;
+    private String translatedMessage;
 
     /**
      * @param code    error code for the error type
@@ -29,6 +29,12 @@ public class ValidationError {
         this.code = checkNotNull(code);
         this.message = checkNotNull(message);
         this.translatedMessage = translatedMessage;
+    }
+
+    /**
+     * Private constructor for frameworks
+     */
+    private ValidationError() {
     }
 
     /**

@@ -24,6 +24,12 @@ public class Response<T> {
     }
 
     /**
+     * Private constructor for frameworks
+     */
+    private Response() {
+    }
+
+    /**
      * @param error errors present when completing the request
      */
     public Response(ValidationError error) {
