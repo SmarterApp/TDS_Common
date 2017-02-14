@@ -11,6 +11,7 @@ import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,7 @@ import tds.common.cache.CacheType;
  */
 @Configuration
 @EnableCaching
+@Profile("cache-enabled")
 @PropertySource(value="classpath:cache.properties", ignoreResourceNotFound=true)
 public class CacheConfiguration extends CachingConfigurerSupport {
 
