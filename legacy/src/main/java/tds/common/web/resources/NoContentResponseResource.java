@@ -7,6 +7,11 @@ import tds.common.ValidationError;
  */
 public class NoContentResponseResource {
     private ValidationError[] errors;
+    
+    /**
+     * Private constructor for frameworks
+     */
+    private NoContentResponseResource() {}
 
     /**
      * @param errors errors present when completing the request
