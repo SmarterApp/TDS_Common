@@ -24,6 +24,7 @@
         <unit-tests.skip>false</unit-tests.skip>
         <integration-tests.skip>true</integration-tests.skip>
         <assertj.version>3.4.1</assertj.version>
+
         <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
         <maven.jar.plugin.version>2.3.2</maven.jar.plugin.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
