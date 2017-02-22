@@ -9,7 +9,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/SmarterApp/TDS_Common.git</connection>
-        <developerConnection>scm:git:git@github.com:SmarterApp/TDS_Common.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com:SmarterApp/TDS_Common.git</developerConnection>
         <url>https://github.com/SmarterApp/TDS_Common</url>
         <tag>HEAD</tag>
     </scm>
