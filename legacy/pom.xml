@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tds-common-legacy</artifactId>
     <name>tds-common-legacy</name>
-
     <packaging>jar</packaging>
+    <version>0.0.2-SNAPSHOT</version>
 
     <parent>
         <groupId>org.opentestsystem.delivery</groupId>
