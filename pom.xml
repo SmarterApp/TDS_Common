@@ -5,13 +5,13 @@
     <artifactId>tds-common-parent</artifactId>
     <name>tds-common-parent</name>
     <packaging>pom</packaging>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
 
     <scm>
         <connection>scm:git:https://github.com/SmarterApp/TDS_Common.git</connection>
         <developerConnection>scm:git:git://github.com/SmarterApp/TDS_Common.git</developerConnection>
         <url>https://github.com/SmarterApp/TDS_Common</url>
-        <tag>HEAD</tag>
+        <tag>0.0.2</tag>
     </scm>
 
     <modules>
