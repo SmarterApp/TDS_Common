@@ -3,13 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tds-common-legacy</artifactId>
     <name>tds-common-legacy</name>
-
     <packaging>jar</packaging>
 
     <parent>
         <groupId>org.opentestsystem.delivery</groupId>
         <artifactId>tds-common-parent</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -71,4 +70,26 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
