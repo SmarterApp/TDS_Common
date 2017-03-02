@@ -41,6 +41,6 @@ public enum Algorithm {
             }
         }
         // No Algorithm found for algorithm type
-        throw new IllegalArgumentException(String.format("No Algorithm found with the name {}", algorithmType));
+        throw new IllegalArgumentException(String.format("No Algorithm found with the name %s", algorithmType));
     }
 }

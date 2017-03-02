@@ -24,7 +24,6 @@ public class LegacyComparerTest {
         UUID uuidNull2 = null;
         UUID uuid1 = UUID.fromString("2B20031D-4BD8-42A8-9963-F6FFA44A9271");
         UUID uuid2 = UUID.fromString("2B20031D-4BD8-42A8-9963-F6FFA44A9271");
-        UUID uuid3 = UUID.fromString("2B20031D-4BD8-42A8-9963-F6FFA44A9273");
 
         Assert.assertEquals(true, LegacyComparer.isEqual(uuid1, uuid2));
         Assert.assertEquals(false, LegacyComparer.isEqual(uuidNull1, uuid2));

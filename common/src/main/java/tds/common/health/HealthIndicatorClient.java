@@ -33,10 +33,9 @@ public class HealthIndicatorClient {
     /**
      * Health status of a dependency that exposes the "health" rest API from Spring Boot’s Actuator Project.
      *
-     * @see <a href="http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready">Spring Boot’s Actuator Project</a>
-     *
      * @param url Base URL of service
      * @return Service's health
+     * @see <a href="http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready">Spring Boot’s Actuator Project</a>
      */
     public Health health(final String url) {
         try {

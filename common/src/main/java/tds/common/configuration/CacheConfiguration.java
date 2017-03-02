@@ -13,17 +13,18 @@ import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import tds.common.cache.CacheKeyGenerator;
-import tds.common.cache.CacheType;
 
 import java.util.concurrent.TimeUnit;
+
+import tds.common.cache.CacheKeyGenerator;
+import tds.common.cache.CacheType;
 
 /**
  * Spring Configuration file for caching
  */
 @Configuration
 @EnableCaching
-@PropertySource(value="classpath:cache.properties", ignoreResourceNotFound=true)
+@PropertySource(value = "classpath:cache.properties", ignoreResourceNotFound = true)
 @ConditionalOnProperty(value = "tds.cache.enabled", havingValue = "true", matchIfMissing = false)
 public class CacheConfiguration extends CachingConfigurerSupport {
 

@@ -15,7 +15,6 @@ import static org.springframework.boot.actuate.health.Status.UP;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.anything;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-
 public class HealthIndicatorTest {
     static RestTemplate restTemplate;
     static HealthIndicatorClient client;
@@ -42,7 +41,7 @@ public class HealthIndicatorTest {
     @Test
     public void runningServiceShouldReturnUpStatus() {
         mockServer.expect(anything()).andRespond(
-                withSuccess(successBody, MediaType.APPLICATION_JSON));
+            withSuccess(successBody, MediaType.APPLICATION_JSON));
 
         Health health = client.health("localhost");
 
@@ -52,7 +51,7 @@ public class HealthIndicatorTest {
     @Test
     public void failedServiceShouldReturnFailedStatus() {
         mockServer.expect(anything()).andRespond(
-                withSuccess(failedBody, MediaType.APPLICATION_JSON));
+            withSuccess(failedBody, MediaType.APPLICATION_JSON));
 
         Health health = client.health("localhost");
 
