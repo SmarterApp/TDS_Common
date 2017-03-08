@@ -19,10 +19,8 @@ public class CacheKeyGenerator implements KeyGenerator {
         sb.append(".");
         sb.append(methodName);
 
-        for (int i = 0; i < params.length; ++i) {
-            Object obj = params[i];
-
-            if(obj != null) {
+        for (Object obj : params) {
+            if (obj != null) {
                 sb.append(obj.hashCode());
             }
 

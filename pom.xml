@@ -5,7 +5,7 @@
     <artifactId>tds-common-parent</artifactId>
     <name>tds-common-parent</name>
     <packaging>pom</packaging>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:https://github.com/SmarterApp/TDS_Common.git</connection>
@@ -24,6 +24,7 @@
         <unit-tests.skip>false</unit-tests.skip>
         <integration-tests.skip>true</integration-tests.skip>
         <assertj.version>3.4.1</assertj.version>
+        <guava.version>20.0</guava.version>
 
         <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
         <maven.jar.plugin.version>2.3.2</maven.jar.plugin.version>
@@ -31,6 +32,16 @@
         <maven.source.plugin.version>2.1.2</maven.source.plugin.version>
         <maven.toolchains.plugin.version>1.1</maven.toolchains.plugin.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <pluginManagement>
