@@ -5,7 +5,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -30,7 +29,9 @@ public class RestTemplateLoggingInterceptor implements ClientHttpRequestIntercep
     }
 
     @Override
-    public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
+    public ClientHttpResponse intercept(final HttpRequest request,
+                                        final byte[] body,
+                                        final ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
         final UUID traceId = UUID.randomUUID();
         logRequest(request, body, traceId);
         ClientHttpResponse response = clientHttpRequestExecution.execute(request, body);
@@ -39,52 +40,63 @@ public class RestTemplateLoggingInterceptor implements ClientHttpRequestIntercep
     }
 
     private void logRequest(final HttpRequest request, final byte[] body, final UUID traceId) {
-        final HttpHeaders headers = request.getHeaders();
         String bodyString = new String(body, Charsets.UTF_8);
 
-        MediaType contentType = request.getHeaders().getContentType();
+        final MediaType contentType = request.getHeaders().getContentType();
 
         if (!bodyString.isEmpty() && contentType.getSubtype().equals(CONTENT_TYPE_SUBTYPE_JSON)) {
             try {
                 final Object json = objectMapper.readValue(bodyString, Object.class);
                 bodyString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
             } catch (IOException e) {
-                log.debug("Unable to parse the request as JSON. Printing raw request body string...");
+                log.debug("Unable to parse the request as JSON. Printing raw request body string...", e);
             }
         }
 
-        log.debug("=========================================* REQUEST *==========================================");
-        log.debug(" Trace ID    :   {}", traceId);
-        log.debug(" Method/URI  :   {} - {}", request.getMethod(), request.getURI());
-        log.debug(" Headers     :   {} ", request.getHeaders());
-        log.debug(" Body        :   {} ", bodyString);
-        log.debug("==============================================================================================");
+        log.debug("\n=========================================* REQUEST *========================================== \n" +
+                " Trace ID    :   {} \n" +
+                " Method/URI  :   {} - {} \n" +
+                " Headers     :   {} \n" +
+                " Body        :   {} \n" +
+                "==============================================================================================",
+            traceId,
+            request.getMethod(), request.getURI(),
+            request.getHeaders(),
+            bodyString.isEmpty() ? "<no body>" : bodyString);
     }
 
     private void logResponse(final ClientHttpResponse response, final UUID traceId) throws IOException {
-        String bodyString;
+        String bodyString = "";
 
         try (final InputStream in = response.getBody()) {
             bodyString = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
+        } catch (IOException e) {
+            // An IOException will be thrown when the body is zero-length (e.g. a 404 response)
+            log.debug("Unable to open response body", e);
         }
 
-        MediaType contentType = response.getHeaders().getContentType();
+        final MediaType contentType = response.getHeaders().getContentType();
 
         if (!bodyString.isEmpty() && contentType.getSubtype().equals(CONTENT_TYPE_SUBTYPE_JSON)) {
             try {
                 final Object json = objectMapper.readValue(bodyString, Object.class);
                 bodyString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
             } catch (IOException e) {
-                log.debug("Unable to parse the response as JSON. Printing raw response body string...");
+                log.debug("Unable to parse the response as JSON.", e);
             }
         }
 
-        log.debug("=========================================* RESPONSE *=========================================");
-        log.debug(" Trace ID    :   {}", traceId);
-        log.debug(" Status Code :   {}", response.getStatusCode());
-        log.debug(" Status Text :   {}", response.getStatusText());
-        log.debug(" Headers     :   {}", response.getHeaders());
-        log.debug(" Body        :   {}", bodyString);
-        log.debug("==============================================================================================");
+        log.debug("\n=========================================* RESPONSE *========================================= \n" +
+                " Trace ID    :   {} \n" +
+                " Status Code :   {} \n" +
+                " Status Text :   {} \n" +
+                " Headers     :   {} \n" +
+                " Body        :   {} \n" +
+                "==============================================================================================",
+            traceId,
+            response.getStatusCode(),
+            response.getStatusText(),
+            response.getHeaders(),
+            bodyString.isEmpty() ? "<no body>" : bodyString);
     }
 }
