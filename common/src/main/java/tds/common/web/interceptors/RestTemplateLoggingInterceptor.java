@@ -16,8 +16,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
-import tds.common.logging.ScopedClientHttpEventLogger;
-
 /**
  * An interceptor for logging REST requests and responses
  */
@@ -35,11 +33,8 @@ public class RestTemplateLoggingInterceptor implements ClientHttpRequestIntercep
                                         final byte[] body,
                                         final ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
         final UUID traceId = UUID.randomUUID();
-        ScopedClientHttpEventLogger eventLogger = new ScopedClientHttpEventLogger(objectMapper, traceId);
         logRequest(request, body, traceId);
-        eventLogger.logEnter(request);
         ClientHttpResponse response = clientHttpRequestExecution.execute(request, body);
-        eventLogger.logExit(request, response);
         logResponse(response, traceId);
         return response;
     }

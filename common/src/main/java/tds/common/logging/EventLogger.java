@@ -19,12 +19,14 @@ import static java.util.Collections.unmodifiableMap;
  * Centralized event logger.
  */
 public class EventLogger {
-    enum Checkpoint {
+    public enum Checkpoint {
         ENTER,
         EXIT,
+        SERVICE_CALL,
+        SERVICE_RETURN,
     }
 
-    enum EventData {
+    public enum EventData {
         APP,
         ELAPSED_TIME,
         CHECKPOINT,
@@ -156,7 +158,10 @@ public class EventLogger {
     }
 
     private static String formatMessage(final String logEvent, final String message) {
-        String result = logEvent.toLowerCase();
+        String result = "";
+        if (!StringUtils.isEmpty(logEvent)) {
+            result = logEvent.toLowerCase();
+        }
         if (!StringUtils.isEmpty(message)) {
             result = result + " - " + message;
         }
