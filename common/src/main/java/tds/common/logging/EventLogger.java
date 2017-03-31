@@ -41,6 +41,7 @@ public class EventLogger {
         RESPONSE_CODE_TEXT,
         RESULT,
         SUB_EVENT,
+        TRACE_ID,
         UNKNOWN,
     }
 

@@ -12,7 +12,6 @@ import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-import tds.common.web.interceptors.RestTemplateEventLoggingInterceptor;
 import tds.common.web.interceptors.RestTemplateLoggingInterceptor;
 
 @Configuration
@@ -27,9 +26,6 @@ public class RestTemplateConfiguration {
     public RestTemplate restTemplate(final RestTemplateBuilder builder, final ObjectMapper objectMapper) {
         return builder
             .requestFactory(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()))
-            .additionalInterceptors(
-                new RestTemplateEventLoggingInterceptor(objectMapper, applicationContext.getId()),
-                new RestTemplateLoggingInterceptor(objectMapper))
-            .build();
+            .additionalInterceptors(new RestTemplateLoggingInterceptor(objectMapper, applicationContext.getId())).build();
     }
 }
