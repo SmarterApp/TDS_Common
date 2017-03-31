@@ -16,6 +16,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
+import tds.common.logging.EventLogger;
+
+import static tds.common.logging.EventLogger.Checkpoint.SERVICE_CALL;
+import static tds.common.logging.EventLogger.Checkpoint.SERVICE_RETURN;
+import static tds.common.logging.EventLogger.EventData.HTTP_HEADERS;
+import static tds.common.logging.EventLogger.EventData.RESPONSE_CODE;
+import static tds.common.logging.EventLogger.EventData.RESPONSE_CODE_TEXT;
+import static tds.common.logging.EventLogger.EventData.TRACE_ID;
+
 /**
  * An interceptor for logging REST requests and responses
  */
@@ -23,23 +32,26 @@ public class RestTemplateLoggingInterceptor implements ClientHttpRequestIntercep
     private static final Logger log = LoggerFactory.getLogger(RestTemplateLoggingInterceptor.class);
     private static final String CONTENT_TYPE_SUBTYPE_JSON = "json";
     private final ObjectMapper objectMapper;
+    private final String appId;
 
-    public RestTemplateLoggingInterceptor(final ObjectMapper objectMapper) {
+    public RestTemplateLoggingInterceptor(final ObjectMapper objectMapper, final String appId) {
         this.objectMapper = objectMapper;
+        this.appId = appId;
     }
 
     @Override
     public ClientHttpResponse intercept(final HttpRequest request,
                                         final byte[] body,
                                         final ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
+        EventLogger eventLogger = new EventLogger(objectMapper);
         final UUID traceId = UUID.randomUUID();
-        logRequest(request, body, traceId);
+        logRequest(request, body, traceId, eventLogger);
         ClientHttpResponse response = clientHttpRequestExecution.execute(request, body);
-        logResponse(response, traceId);
+        logResponse(request, response, traceId, eventLogger);
         return response;
     }
 
-    private void logRequest(final HttpRequest request, final byte[] body, final UUID traceId) {
+    private void logRequest(final HttpRequest request, final byte[] body, final UUID traceId, final EventLogger eventLogger) {
         String bodyString = new String(body, Charsets.UTF_8);
 
         final MediaType contentType = request.getHeaders().getContentType();
@@ -63,9 +75,14 @@ public class RestTemplateLoggingInterceptor implements ClientHttpRequestIntercep
             request.getMethod(), request.getURI(),
             request.getHeaders(),
             bodyString.isEmpty() ? "<no body>" : bodyString);
+
+        eventLogger.putField(TRACE_ID.name(), traceId);
+        eventLogger.putField(HTTP_HEADERS.name(), request.getHeaders());
+        eventLogger.setBeginMillis(System.currentTimeMillis());
+        eventLogger.info(appId, request.getURI().getPath(), SERVICE_CALL.name(), null, null);
     }
 
-    private void logResponse(final ClientHttpResponse response, final UUID traceId) throws IOException {
+    private void logResponse(final HttpRequest request, final ClientHttpResponse response, final UUID traceId, final EventLogger eventLogger) throws IOException {
         String bodyString = "";
 
         try (final InputStream in = response.getBody()) {
@@ -98,5 +115,13 @@ public class RestTemplateLoggingInterceptor implements ClientHttpRequestIntercep
             response.getStatusText(),
             response.getHeaders(),
             bodyString.isEmpty() ? "<no body>" : bodyString);
+
+        try {
+            eventLogger.putField(RESPONSE_CODE.name(), response.getStatusCode());
+            eventLogger.putField(RESPONSE_CODE_TEXT.name(), response.getStatusText());
+        } catch (Exception ignored) {
+        }
+        eventLogger.setEndMillis(System.currentTimeMillis());
+        eventLogger.info(appId, request.getURI().getPath(), SERVICE_RETURN.name(), null, null);
     }
 }
