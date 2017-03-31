@@ -1,7 +1,6 @@
 package tds.common.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.ApplicationContext;
@@ -18,14 +17,13 @@ import tds.common.web.interceptors.RestTemplateLoggingInterceptor;
 @Import(JacksonObjectMapperConfiguration.class)
 public class RestTemplateConfiguration {
 
-    @Autowired
-    private ApplicationContext applicationContext;
-
     @Bean
     @ConditionalOnMissingBean(RestTemplate.class)
-    public RestTemplate restTemplate(final RestTemplateBuilder builder, final ObjectMapper objectMapper) {
+    public RestTemplate restTemplate(final RestTemplateBuilder builder, final ObjectMapper objectMapper,
+                                     final ApplicationContext applicationContext) {
         return builder
             .requestFactory(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()))
-            .additionalInterceptors(new RestTemplateLoggingInterceptor(objectMapper, applicationContext.getId())).build();
+            .additionalInterceptors(new RestTemplateLoggingInterceptor(objectMapper, applicationContext.getId()))
+            .build();
     }
 }
