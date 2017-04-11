@@ -41,6 +41,9 @@ public class NameAwareGuavaCacheManager extends GuavaCacheManager {
             case CacheType.LONG_TERM:
                 cacheBuilder.expireAfterWrite(cacheProperties.getExpireTimeLong(), SECONDS);
                 break;
+            default:
+                cacheBuilder.expireAfterWrite(cacheProperties.getExpireTimeDefault(), SECONDS);
+                break;
         }
         return new GuavaCache(name, cacheBuilder.build(), isAllowNullValues());
     }
