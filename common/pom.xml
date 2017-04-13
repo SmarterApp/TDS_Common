@@ -18,6 +18,10 @@
         <jackson.modules.version>2.8.5</jackson.modules.version>
     </properties>
 
+<!--
+    Declare versions for org.springframework.cloud:* dependencies that all work together.
+    Spring-cloud project doesn't have single-release versions like spring-core does.
+-->
     <dependencyManagement>
         <dependencies>
             <dependency>
