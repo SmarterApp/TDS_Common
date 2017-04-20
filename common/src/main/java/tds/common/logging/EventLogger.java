@@ -19,6 +19,12 @@ import static java.util.Collections.unmodifiableMap;
  * Centralized event logger.
  */
 public class EventLogger {
+
+    public enum LogEvent {
+        APP_STARTUP,
+        APP_SHUTDOWN,
+    }
+
     public enum Checkpoint {
         ENTER,
         EXIT,
