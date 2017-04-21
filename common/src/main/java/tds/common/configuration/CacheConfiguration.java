@@ -30,7 +30,7 @@ import static tds.common.cache.CacheType.SHORT_TERM;
 @Configuration
 @EnableCaching
 @EnableConfigurationProperties(CacheConfigurationProperties.class)
-@ConditionalOnProperty(value = "tds.cache.enabled", havingValue = "true")
+@ConditionalOnProperty(value = "tds.cache.enabled", havingValue = "true", matchIfMissing = true)
 public class CacheConfiguration extends CachingConfigurerSupport {
 
     @Bean
