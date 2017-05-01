@@ -3,8 +3,6 @@ package tds.common.cache;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 
@@ -14,7 +12,6 @@ import java.io.IOException;
  * This Redis serializer uses an ObjectMapper to serialize objects.
  */
 public class RedisJsonSerializer implements RedisSerializer<Object> {
-    private final static Logger LOG = LoggerFactory.getLogger(RedisJsonSerializer.class);
 
     private final ObjectMapper objectMapper;
 
@@ -34,7 +31,6 @@ public class RedisJsonSerializer implements RedisSerializer<Object> {
     @Override
     public byte[] serialize(final Object obj) throws SerializationException {
         try {
-            LOG.info("Serializing obj {} as {}", obj, objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj));
             return objectMapper.writeValueAsBytes(obj);
         } catch (final JsonProcessingException e) {
             throw new SerializationException("Redis is unable to serialize object", e);
