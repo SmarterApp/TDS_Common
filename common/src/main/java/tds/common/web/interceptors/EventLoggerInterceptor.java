@@ -55,7 +55,7 @@ public class EventLoggerInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(
         HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        final EventLogger eventLogger = (EventLogger)request.getAttribute("event-logger");
+        final EventLogger eventLogger = (EventLogger)request.getAttribute(EVENT_LOGGER_ATTRIBUTE);
         eventLogger.putField(RESPONSE_CODE.name(), response.getStatus());
         eventLogger.setEndMillis(System.currentTimeMillis());
         eventLogger.info(app, request.getRequestURI(), EXIT.name(), null, null);
