@@ -26,7 +26,8 @@ public class EventLoggerInterceptor extends HandlerInterceptorAdapter {
 
     private final String app;
     private final ObjectMapper objectMapper;
-    private EventLogger eventLogger;
+    private final String EVENT_LOGGER_ATTRIBUTE = "event-logger";
+
 
     public EventLoggerInterceptor(final String app, final ObjectMapper objectMapper) {
         this.app = app;
@@ -38,8 +39,10 @@ public class EventLoggerInterceptor extends HandlerInterceptorAdapter {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-        eventLogger = new EventLogger(objectMapper);
+        final EventLogger eventLogger = new EventLogger(objectMapper);
+        request.setAttribute(EVENT_LOGGER_ATTRIBUTE, eventLogger);
         final HttpSession session = request.getSession(false);
+
         if (null != session) {
             eventLogger.putField(HTTP_SESSION_ID.name(), session.getId());
         }
@@ -52,6 +55,7 @@ public class EventLoggerInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(
         HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        final EventLogger eventLogger = (EventLogger)request.getAttribute("event-logger");
         eventLogger.putField(RESPONSE_CODE.name(), response.getStatus());
         eventLogger.setEndMillis(System.currentTimeMillis());
         eventLogger.info(app, request.getRequestURI(), EXIT.name(), null, null);
