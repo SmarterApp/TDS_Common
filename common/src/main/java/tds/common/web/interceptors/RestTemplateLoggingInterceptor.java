@@ -79,7 +79,7 @@ public class RestTemplateLoggingInterceptor implements ClientHttpRequestIntercep
         eventLogger.putField(TRACE_ID.name(), traceId);
         eventLogger.putField(HTTP_HEADERS.name(), request.getHeaders());
         eventLogger.setBeginMillis(System.currentTimeMillis());
-        eventLogger.info(appId, request.getURI().getPath(), SERVICE_CALL.name(), null, null);
+        eventLogger.trace(appId, request.getURI().getPath(), SERVICE_CALL.name(), null, null);
     }
 
     private void logResponse(final HttpRequest request, final ClientHttpResponse response, final UUID traceId, final EventLogger eventLogger) throws IOException {
@@ -122,6 +122,6 @@ public class RestTemplateLoggingInterceptor implements ClientHttpRequestIntercep
         } catch (Exception ignored) {
         }
         eventLogger.setEndMillis(System.currentTimeMillis());
-        eventLogger.info(appId, request.getURI().getPath(), SERVICE_RETURN.name(), null, null);
+        eventLogger.trace(appId, request.getURI().getPath(), SERVICE_RETURN.name(), null, null);
     }
 }

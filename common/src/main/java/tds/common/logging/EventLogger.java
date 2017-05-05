@@ -64,14 +64,14 @@ public class EventLogger {
     }
 
     /**
-     * Add a supplemental piece of info that will be logged on subsequent log calls.
+     * Add a supplemental piece of trace that will be logged on subsequent log calls.
      */
     public void putField(final String key, final Object value) {
         extraFields.put(key, value);
     }
 
     /**
-     * Get a supplemental piece of info that was placed into the logger.
+     * Get a supplemental piece of trace that was placed into the logger.
      */
     public Object getField(final String key) {
         return extraFields.get(key);
@@ -88,8 +88,8 @@ public class EventLogger {
      * @param message    an optional free-format message string to add to the log entry
      * @param data       optional searchable event data to add to the recorded event
      */
-    public void info(final String app, final String logEvent, final String checkpoint,
-                     final String message, final Map<EventData, Object> data) {
+    public void trace(final String app, final String logEvent, final String checkpoint,
+                      final String message, final Map<EventData, Object> data) {
         log(formatMessage(logEvent, message), getFieldMap(app, checkpoint, data));
     }
 
@@ -119,7 +119,7 @@ public class EventLogger {
 
     private void log(final String event, final Map<String, Object> fields) {
         try {
-            logger.info(marker, format("EVENT:%s JSON:({\"event_data\": %s})", event, writer.writeValueAsString(fields)));
+            logger.trace(marker, format("EVENT:%s JSON:({\"event_data\": %s})", event, writer.writeValueAsString(fields)));
         } catch (Exception e) {
             logger.warn(marker, format("exception occurred while logging event: %s", event), e);
         }

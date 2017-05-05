@@ -31,7 +31,7 @@ public class ApplicationStartupLogger implements ApplicationListener<ContextRefr
     public void onApplicationEvent(final ContextRefreshedEvent event) {
         if (!logged) {
             logged = true;
-            logger.info(appId, APP_STARTUP.name(), null, null, null);
+            logger.trace(appId, APP_STARTUP.name(), null, null, null);
         }
     }
 }
