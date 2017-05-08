@@ -64,14 +64,14 @@ public class EventLogger {
     }
 
     /**
-     * Add a supplemental piece of trace that will be logged on subsequent log calls.
+     * Add a supplemental piece of info that will be logged on subsequent log calls.
      */
     public void putField(final String key, final Object value) {
         extraFields.put(key, value);
     }
 
     /**
-     * Get a supplemental piece of trace that was placed into the logger.
+     * Get a supplemental piece of info that was placed into the logger.
      */
     public Object getField(final String key) {
         return extraFields.get(key);
