@@ -48,7 +48,7 @@ public class EventLoggerInterceptor extends HandlerInterceptorAdapter {
         }
         eventLogger.putField(HTTP_REQUEST_PARAMETERS.name(), request.getParameterMap());
         eventLogger.setBeginMillis(System.currentTimeMillis());
-        eventLogger.info(app, request.getRequestURI(), ENTER.name(), null, null);
+        eventLogger.trace(app, request.getRequestURI(), ENTER.name(), null, null);
         return true;
     }
 
@@ -61,6 +61,6 @@ public class EventLoggerInterceptor extends HandlerInterceptorAdapter {
         final EventLogger eventLogger = (EventLogger)request.getAttribute(EVENT_LOGGER_ATTRIBUTE);
         eventLogger.putField(RESPONSE_CODE.name(), response.getStatus());
         eventLogger.setEndMillis(System.currentTimeMillis());
-        eventLogger.info(app, request.getRequestURI(), EXIT.name(), null, null);
+        eventLogger.trace(app, request.getRequestURI(), EXIT.name(), null, null);
     }
 }

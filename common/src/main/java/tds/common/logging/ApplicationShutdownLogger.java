@@ -31,7 +31,7 @@ public class ApplicationShutdownLogger implements ApplicationListener<ContextClo
     public void onApplicationEvent(final ContextClosedEvent event) {
         if (!logged) {
             logged = true;
-            logger.info(appId, APP_SHUTDOWN.name(), null, null, null);
+            logger.trace(appId, APP_SHUTDOWN.name(), null, null, null);
         }
     }
 }
