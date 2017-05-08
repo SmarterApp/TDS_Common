@@ -23,8 +23,8 @@ Spring boot default log levels are used.
                 <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
             </appender>
 
-            <!-- send trace event logs to LOGSTASH but not to CONSOLE-->
-            <logger name="tds.common.logging.EventLogger" level="trace" additive="false">
+            <!-- send trace event logs to LOGSTASH but not to CONSOLE by default -->
+            <logger name="tds.common.logging.EventLogger" level="trace" additivity="false">
                 <appender-ref ref="LOGSTASH"/>
             </logger>
         </then>
