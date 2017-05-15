@@ -117,7 +117,7 @@ public class RestTemplateLoggingInterceptor implements ClientHttpRequestIntercep
             bodyString.isEmpty() ? "<no body>" : bodyString);
 
         try {
-            eventLogger.putField(RESPONSE_CODE.name(), response.getStatusCode());
+            eventLogger.putField(RESPONSE_CODE.name(), response.getStatusCode().value());
             eventLogger.putField(RESPONSE_CODE_TEXT.name(), response.getStatusText());
         } catch (Exception ignored) {
         }
