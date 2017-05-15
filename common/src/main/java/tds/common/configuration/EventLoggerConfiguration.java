@@ -15,6 +15,8 @@ import tds.common.web.interceptors.EventLoggerInterceptor;
 public class EventLoggerConfiguration {
   private final ApplicationContext applicationContext;
   private final ObjectMapper objectMapper;
+  private static final String INCLUDE_ALL_PATTERN = "/**";
+  private static final String EXCLUDE_HEALTH_PATTERN = "/health*";
 
   @Autowired
   public EventLoggerConfiguration(final ApplicationContext applicationContext,
@@ -31,6 +33,6 @@ public class EventLoggerConfiguration {
   @Bean
   public MappedInterceptor eventInterceptor()
   {
-    return new MappedInterceptor(new String[] {"/**"}, new String[] {"/health*"}, new EventLoggerInterceptor(applicationContext.getId(), objectMapper));
+    return new MappedInterceptor(new String[] {INCLUDE_ALL_PATTERN}, new String[] {EXCLUDE_HEALTH_PATTERN}, new EventLoggerInterceptor(applicationContext.getId(), objectMapper));
   }
 }
