@@ -31,6 +31,6 @@ public class EventLoggerConfiguration {
   @Bean
   public MappedInterceptor eventInterceptor()
   {
-    return new MappedInterceptor(null, new EventLoggerInterceptor(applicationContext.getId(), objectMapper));
+    return new MappedInterceptor(new String[] {"/**"}, new String[] {"/health*"}, new EventLoggerInterceptor(applicationContext.getId(), objectMapper));
   }
 }
