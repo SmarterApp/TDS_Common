@@ -28,6 +28,8 @@ public class ExceptionAdvice {
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ResponseBody
     ResponseEntity<ExceptionMessageResource> handleNotFoundException(final NotFoundException ex) {
+        LOG.info("Could not find a resource ", ex);
+
         return new ResponseEntity<>(
             new ExceptionMessageResource(HttpStatus.NOT_FOUND.toString(), ex.getLocalizedMessage()), HttpStatus.NOT_FOUND);
     }
@@ -36,6 +38,8 @@ public class ExceptionAdvice {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     ResponseEntity<ExceptionMessageResource> handleArgumentMismatchException(final MethodArgumentTypeMismatchException ex) {
+        LOG.warn("An invalid request or bad data ", ex);
+
         return new ResponseEntity<>(
             new ExceptionMessageResource(HttpStatus.BAD_REQUEST.toString(), String.format("Invalid value: %s", ex.getName())), HttpStatus.BAD_REQUEST);
     }
@@ -44,6 +48,8 @@ public class ExceptionAdvice {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     ResponseEntity<ExceptionMessageResource> handleIllegalStateException(final IllegalStateException ex) {
+        LOG.error("Illegal State error.  System isn't configured properly ", ex);
+
         return new ResponseEntity<>(
             new ExceptionMessageResource(HttpStatus.INTERNAL_SERVER_ERROR.toString(), ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -52,6 +58,8 @@ public class ExceptionAdvice {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     ResponseEntity<ExceptionMessageResource> handleInvalidParametersException(final IllegalArgumentException ex) {
+        LOG.info("Invalid request error", ex);
+
         return new ResponseEntity<>(
             new ExceptionMessageResource(HttpStatus.BAD_REQUEST.toString(), ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
