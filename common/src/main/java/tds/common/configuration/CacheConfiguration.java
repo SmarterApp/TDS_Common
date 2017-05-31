@@ -1,7 +1,6 @@
 package tds.common.configuration;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
@@ -45,7 +44,7 @@ public class CacheConfiguration extends CachingConfigurerSupport {
      * @return A guava cache manager
      */
     @Bean(name = "cacheManager")
-    @ConditionalOnMissingBean(RedisTemplate.class)
+    @ConditionalOnProperty(name = "tds.cache.implementation", havingValue = "guava", matchIfMissing = true)
     public CacheManager guavaCacheManager(final CacheConfigurationProperties cacheConfigurationProperties) {
         return new NameAwareGuavaCacheManager(cacheConfigurationProperties,
             SHORT_TERM, MEDIUM_TERM, LONG_TERM);
