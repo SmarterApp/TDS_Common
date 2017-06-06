@@ -16,7 +16,7 @@ public class EventLoggerConfiguration {
   private final ApplicationContext applicationContext;
   private final ObjectMapper objectMapper;
   private static final String INCLUDE_ALL_PATTERN = "/**";
-  private static final String EXCLUDE_HEALTH_PATTERN = "/health*";
+  private static final String EXCLUDE_HEALTH_PATTERN = "/**/health*";
 
   @Autowired
   public EventLoggerConfiguration(final ApplicationContext applicationContext,
