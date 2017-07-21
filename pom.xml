@@ -5,7 +5,7 @@
     <artifactId>tds-common-parent</artifactId>
     <name>tds-common-parent</name>
     <packaging>pom</packaging>
-    <version>3.1.2-SNAPSHOT</version>
+    <version>3.1.2</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -17,7 +17,7 @@
         <connection>scm:git:https://github.com/SmarterApp/TDS_Common.git</connection>
         <developerConnection>scm:git:git://github.com/SmarterApp/TDS_Common.git</developerConnection>
         <url>https://github.com/SmarterApp/TDS_Common</url>
-        <tag>HEAD</tag>
+        <tag>3.1.2</tag>
     </scm>
 
     <modules>
