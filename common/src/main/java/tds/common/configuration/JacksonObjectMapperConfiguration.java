@@ -31,7 +31,7 @@ public class JacksonObjectMapperConfiguration {
             builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             builder.serializationInclusion(JsonInclude.Include.NON_EMPTY);
             builder.failOnUnknownProperties(false);
-            builder.modules(new GuavaModule(), new JodaModule(), new Jdk8Module(), new JavaTimeModule());
+            builder.modules(new GuavaModule(), new JodaModule());
         };
     }
 }
