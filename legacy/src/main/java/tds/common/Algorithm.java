@@ -18,6 +18,7 @@ package tds.common;
  */
 public enum Algorithm {
     ADAPTIVE_2("adaptive2"),
+    ADAPTIVE("adaptive"),
     VIRTUAL("virtual"),
     FIXED_FORM("fixedform");
 
