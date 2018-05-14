@@ -5,7 +5,7 @@
     <artifactId>tds-common-parent</artifactId>
     <name>tds-common-parent</name>
     <packaging>pom</packaging>
-    <version>5.0.3-SNAPSHOT</version>
+    <version>5.0.5-SNAPSHOT</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
