@@ -23,13 +23,14 @@ import org.springframework.web.servlet.handler.MappedInterceptor;
 
 import tds.common.web.interceptors.EventLoggerInterceptor;
 
+import static tds.common.web.interceptors.RestTemplateLoggingInterceptor.HEALTH_PATTERN;
+
 @Configuration
 @ComponentScan(basePackages = "tds.common.logging")
 public class EventLoggerConfiguration {
   private final ApplicationContext applicationContext;
   private final ObjectMapper objectMapper;
   private static final String INCLUDE_ALL_PATTERN = "/**";
-  private static final String EXCLUDE_HEALTH_PATTERN = "**/health*";
 
   @Autowired
   public EventLoggerConfiguration(final ApplicationContext applicationContext,
@@ -46,6 +47,6 @@ public class EventLoggerConfiguration {
   @Bean
   public MappedInterceptor eventInterceptor()
   {
-    return new MappedInterceptor(new String[] {INCLUDE_ALL_PATTERN}, new String[] {EXCLUDE_HEALTH_PATTERN}, new EventLoggerInterceptor(applicationContext.getId(), objectMapper));
+    return new MappedInterceptor(new String[] {INCLUDE_ALL_PATTERN}, new String[] {HEALTH_PATTERN}, new EventLoggerInterceptor(applicationContext.getId(), objectMapper));
   }
 }

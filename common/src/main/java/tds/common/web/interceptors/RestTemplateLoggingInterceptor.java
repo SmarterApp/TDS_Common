@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.util.AntPathMatcher;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +45,9 @@ import static tds.common.logging.EventLogger.EventData.TRACE_ID;
 public class RestTemplateLoggingInterceptor implements ClientHttpRequestInterceptor {
     private static final Logger log = LoggerFactory.getLogger(RestTemplateLoggingInterceptor.class);
     private static final String CONTENT_TYPE_SUBTYPE_JSON = "json";
+    private static final AntPathMatcher matcher = new AntPathMatcher();
+    public static final String HEALTH_PATTERN = "/**/health*";
+
     private final ObjectMapper objectMapper;
     private final String appId;
 
@@ -56,11 +60,18 @@ public class RestTemplateLoggingInterceptor implements ClientHttpRequestIntercep
     public ClientHttpResponse intercept(final HttpRequest request,
                                         final byte[] body,
                                         final ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
-        EventLogger eventLogger = new EventLogger(objectMapper);
+
+        final boolean isHealthCheck = matcher.match(HEALTH_PATTERN, request.getURI().getPath());
+        final EventLogger eventLogger = new EventLogger(objectMapper);
         final UUID traceId = UUID.randomUUID();
-        logRequest(request, body, traceId, eventLogger);
+
+        if (!isHealthCheck) {
+            logRequest(request, body, traceId, eventLogger);
+        }
         ClientHttpResponse response = clientHttpRequestExecution.execute(request, body);
-        logResponse(request, response, traceId, eventLogger);
+        if (!isHealthCheck) {
+            logResponse(request, response, traceId, eventLogger);
+        }
         return response;
     }
 
